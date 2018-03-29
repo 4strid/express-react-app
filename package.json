@@ -1,0 +1,29 @@
+{
+  "name": "express-react-app",
+  "version": "1.0.0",
+  "description": "Guide on setting up an Express app with a React frontend using create-react-app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "cd client && npm run build",
+	"react-dev": "cd client && npm start",
+	"develop": "concurrently --kill-others \"npm run react-dev\" \"nodemon server.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cutejs/express-react-app.git"
+  },
+  "author": "Peter Fesz-Nguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cutejs/express-react-app/issues"
+  },
+  "homepage": "https://github.com/cutejs/express-react-app#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
+  }
+}
