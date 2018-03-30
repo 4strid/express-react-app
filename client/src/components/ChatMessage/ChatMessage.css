@@ -1,0 +1,16 @@
+.chat-timestamp {
+	color: '#ccc';
+	margin-right: 5px;
+}
+
+.chat-sender-user {
+	font-weight: bold;
+	color: red;
+	margin-right: 5px;
+}
+
+.chat-sender-else {
+	font-weight: bold;
+	color: blue;
+	margin-right: 5px;
+}

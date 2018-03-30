@@ -2,34 +2,84 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { getTest } from './api'
+import { getMessages, sendMessage } from './api'
+
+import NameField from './components/NameField'
+import ChatWindow from './components/ChatWindow'
+import ChatMessage from './components/ChatMessage'
+import MessageField from './components/MessageField'
 
 class App extends Component {
 
 	state = {
-		heading: 'Hello react',
+		username: 'User',
+		messages: [],
+	}
+
+	handleRename = username => {
+		this.setState({username})
+	}
+
+	handleSend = message => {
+		const messageModel = {
+			sender: this.state.username,
+			body: message,
+		}
+		sendMessage(messageModel).then(message => {
+			this.setState({messages: [...this.state.messages, message]})
+		}).catch(err => {
+			console.error(err)
+		})
+	}
+
+	pollMessages = () => {
+		setInterval(() => {
+			getMessages().then(messages => {
+				this.setState({messages})
+			}).catch(err => {
+				console.error(err)
+			})
+		}, 2000)
 	}
 
 	componentWillMount () {
-		getTest().then(response => {
-			this.setState({heading: response.data.message})
+		getMessages().then(messages => {
+			this.setState({messages})
 		}).catch(err => {
-			this.setState({heading: 'Could not make the request'})
+			console.error(err)
 		})
+		this.pollMessages()
 	}
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">{this.state.heading}</h1>
+          <h1 className="App-title">Hello {this.state.username}</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+		<NameField username={this.state.username} handleRename={this.handleRename}/>
+		<ChatWindow>
+			{this.state.messages.map(message => (
+				<ChatMessage key={message._id}
+							 sender={message.sender}
+							 body={message.body}
+							 date={message.date}
+							 username={this.state.username}
+				 />
+			))}
+		</ChatWindow>
+		<MessageField message={this.state.message} handleSend={this.handleSend}/>
       </div>
     );
   }
 }
 
 export default App;
+
+
+
+
+
+

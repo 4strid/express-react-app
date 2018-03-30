@@ -1,4 +1,7 @@
 const express = require('express')
+const bodyParser = require('body-parser')
+
+const routes = require('./routes')
 
 const PORT = process.env.PORT || 3001
 
@@ -8,12 +11,9 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'))
 }
 
-app.get('/api/test', (req, res) => {
-	console.log('this is a log')
-	res.json({
-		message: 'Hello express!',
-	})
-})
+app.use(bodyParser.json())
+
+app.use(routes)
 
 app.listen(PORT, () => {
 	console.log('Listening on port ' + PORT)
